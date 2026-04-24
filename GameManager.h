@@ -79,7 +79,7 @@ public:
         return passed;
     }
 
-    bool showFinalSummary() {
+    /*bool showFinalSummary() {
         // [UI & Formatting: ASCII Art]
         std::cout << R"(
    ____                       ____  _     _               __  __                                   
@@ -153,7 +153,88 @@ public:
             )" << "\nGAME OVER! The authorities closed your bistro due to extreme pollution. You MUST restart.\n";
             return false; // บังคับเริ่มใหม่
         }
-    }
+    }*/
+
+
+    bool showFinalSummary() {
+        cout << "\n\n";
+        cout << "╔════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║                               📅 7-DAY SUSTAINABILITY REPORT                               ║" << endl;
+        cout << "╠═══════════╦═══════════════╦════════════════════════════════════════════════════╦═══════════╣" << endl;
+        cout << "║    DAY    ║     CARBON    ║                      MISSION                       ║   STATUS  ║" << endl;
+        cout << "╠═══════════╬═══════════════╬════════════════════════════════════════════════════╬═══════════╣" << endl;   
+
+        DaySummary* temp = headSummary;
+        while (temp != nullptr) {
+            string icon = temp->missionPassed ? " ✅" : " ❌";
+            string statusText = temp->missionPassed ? "PASS" : "FAIL";
+            string color = temp->missionPassed ? "\033[32m" : "\033[31m";
+
+            printf("║   Day %-3d ║  %4d units   ║ ", 
+                temp->dayNumber, temp->totalCarbonUsed);
+
+            string mName = temp->missionName;
+            if(mName == "") mName = "No Mission";
+            printf("%-50s ║ ", mName.substr(0, 50).c_str());
+
+            printf("%s%s %-5s\033[0m ║\n", color.c_str(), icon.c_str(), statusText.c_str());
+
+            temp = temp->next;
+        }
+        cout << "╚═══════════╩═══════════════╩════════════════════════════════════════════════════╩═══════════╝" << endl;
+
+        std::cout << "----------------------------------------------------------------------------------------------\n";
+        std::cout << "Total Carbon: " << totalCarbon7Days << " / " << maxCarbonCeiling << "\n";
+        std::cout << "Missions Completed: " << missionsCompleted << " / 3\n\n";
+    
+
+        if (totalCarbon7Days <= (maxCarbonCeiling * 0.7) && missionsCompleted == 3) {
+            std::cout << R"(
+  ______    _______                     __       
+.' ____ \  |_   __ \                   [  |  _   
+| (___ \_|   | |__) |   ,--.   _ .--.   | | / ]  
+ _.____`.    |  __ /   `'_\ : [ `.-. |  | '' <   
+| \____) |  _| |  \ \_ // | |, | | | |  | |`\ \  
+ \______.' |____| |___|\'-;__/[___||__][__|  \_] 
+                                                 
+            )" << "\nPerfect Eco-Bistro! You saved the world!\n";
+            return true;
+        } else if (totalCarbon7Days <= maxCarbonCeiling && missionsCompleted == 3) {
+            std::cout << R"(
+      _        _______                     __       
+     / \      |_   __ \                   [  |  _   
+    / _ \       | |__) |   ,--.   _ .--.   | | / ]  
+   / ___ \      |  __ /   `'_\ : [ `.-. |  | '' <   
+ _/ /   \ \_   _| |  \ \_ // | |, | | | |  | |`\ \  
+|____| |____| |____| |___|\'-;__/[___||__][__|  \_]    
+
+            )" << "\nGreat Job! You met the goals.\n";
+            return true;
+        } else if (totalCarbon7Days <= maxCarbonCeiling * 1.2) {
+            std::cout << R"(
+ ______     _______                     __       
+|_   _ \   |_   __ \                   [  |  _   
+  | |_) |    | |__) |   ,--.   _ .--.   | | / ]  
+  |  __'.    |  __ /   `'_\ : [ `.-. |  | '' <   
+ _| |__) |  _| |  \ \_ // | |, | | | |  | |`\ \  
+|_______/  |____| |___|\'-;__/[___||__][__|  \_]   
+
+            )" << "\nNeeds some improvement, but you survived.\n";
+            return true;
+        } else {
+            std::cout << R"(
+ ________   _______                     __       
+|_   __  | |_   __ \                   [  |  _   
+  | |_ \_|   | |__) |   ,--.   _ .--.   | | / ]  
+  |  _|      |  __ /   `'_\ : [ `.-. |  | '' <   
+ _| |_      _| |  \ \_ // | |, | | | |  | |`\ \  
+|_____|    |____| |___|\'-;__/[___||__][__|  \_] 
+                                                 
+            )" << "\nGAME OVER! The authorities closed your bistro due to extreme pollution. You MUST restart.\n";
+            return false; // บังคับเริ่มใหม่
+        }
+}
+
 };
 
 #endif

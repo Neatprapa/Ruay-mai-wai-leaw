@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+//<<<<<<< HEAD
 #include <ctime>
 #include <cstdlib>
 #include "Menu.h"
@@ -134,10 +135,30 @@ cout<<"\n\n\n";
             int dayCarbon = selectedMenu->calculateTotalCarbon();
             bool missionPassed = game.checkMission(todayMission, selectedMenu, dayCarbon);
 
-            if(todayMission != 0) {
+            /*if(todayMission != 0) {
                 cout << "\nMission Result: " << (missionPassed ? "PASSED!" : "FAILED!") << "\n";
+            }*/
+            //cout << "Total Carbon Generated Today: " << dayCarbon << "\n";
+            cout << "\n ┌────────────────────────────────────────────────────────────────────────────────────────────┐" << endl;
+            cout << " │ 📊 DAILY CARBON REPORT                                                                     │" << endl;
+            cout << " ├────────────────────────────────────────────────────────────────────────────────────────────┤" << endl;
+
+            printf(" │ TOTAL CARBON GENERATED : %-10d                                                        │\n", dayCarbon);
+            if (todayMission != 0) {
+                string icon = missionPassed ? "✅" : "❌";
+                string text = missionPassed ? "PASSED" : "FAILED";
+                string color = missionPassed ? "\033[32m" : "\033[31m";
+                printf(" │ MISSION : [ %-s ] STATUS : %s ", missionNames[todayMission].substr(0, 25).c_str(), icon.c_str());
+                printf("%s%-7s\033[0m                                │\n", color.c_str(), text.c_str());            
             }
-            cout << "Total Carbon Generated Today: " << dayCarbon << "\n";
+            else{
+                printf(" │ MISSION : [ %-s ] STATUS : %s ", "None", "---");
+                printf("                                                           │\n");          
+
+            }
+    
+            cout << " └────────────────────────────────────────────────────────────────────────────────────────────┘" << endl;
+            cout<<"\n\n\n";
 
             // เพิ่มลง Linked List
             game.addDailyRecordSorted(day, dayCarbon, missionPassed, missionNames[todayMission]);
@@ -429,4 +450,5 @@ vector<Menu*> setupDay7Menus() {
     day7.push_back(m4);
 
     return day7;
+
 }
