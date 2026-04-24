@@ -5,6 +5,17 @@
 #include "Menu.h"
 #include "GameManager.h"
 
+// for colour
+#define RESET   "\033[0m"
+#define RED     "\033[1;31m"
+#define GREEN   "\033[1;32m"
+#define YELLOW  "\033[1;33m"
+#define BLUE    "\033[1;34m"
+#define MAGENTA "\033[1;35m"
+#define CYAN    "\033[1;36m"
+#define WHITE   "\033[1;37m"
+#define BOLD    "\033[1m"
+
 using namespace std;
 
 vector<Menu*> setupDay1Menus();
@@ -31,7 +42,7 @@ int main() {
         restartGame = false;
         GameManager game(800); // สมมติเพดานที่ 800
 
-        std::cout << R"(
+        /*std::cout << R"(
  ____      ____      __                                     
 |_  _|    |_  _|    [  |                                    
   \ \  /\  / /.---.  | |  .---.   .--.   _ .--..--.  .---.  
@@ -39,7 +50,21 @@ int main() {
     \  /\  / | \__., | | | \__. | \__. | | | | | | || \__., 
      \/  \/   '.__.'[___]'.___.' '.__.' [___||__||__]'.__.' 
                                                             
-        )" << "\nWelcome to Green Bistro Manager!\n\n";
+        )" << "\nWelcome to Green Bistro Manager!\n\n";*/
+
+        std::cout<< MAGENTA << R"(  
+____      ____      __                                     
+|_  _|    |_  _|    [  |                                    
+  \ \  /\  / /.---.  | |  .---.   .--.   _ .--..--.  .---.  
+   \ \/  \/ // /__\\ | | / /'`\]/ .'`\ \[ `.-. .-. |/ /__\\ 
+    \  /\  / | \__., | | | \__. | \__. | | | | | | || \__., 
+     \/  \/   '.__.'[___]'.___.' '.__.' [___||__||__]'.__.'
+     )" << RESET << "\n";
+
+std::cout <<MAGENTA<< "     ╔══════════════════════════════════════════════════╗" << RESET <<std::endl;
+std::cout <<BOLD<<MAGENTA<< "     ║     🌿 WELCOME TO GREEN BISTRO MANAGER 🌿        ║" << RESET <<std::endl;
+std::cout <<MAGENTA<< "     ╚══════════════════════════════════════════════════╝" << RESET <<std::endl;
+cout<<"\n\n\n";
 
         // สุ่ม 3 ภารกิจ ลงใน 3 วันจาก 7 วัน
         int missionDays[7] = {0};
@@ -54,12 +79,17 @@ int main() {
 
         // Loop 7 วัน
         for (int day = 1; day <= 7; day++) {
-            cout << "\n==============================\n";
+            /*cout << "\n==============================\n";
             cout << "          DAY " << day << "          \n";
-            cout << "==============================\n";
+            cout << "==============================\n";*/
+
+            std::cout<< CYAN << "╔══════════════════════════════════════════╗" << RESET <<std::endl;
+            std::cout<< BOLD << CYAN << "║ [ SYSTEM STATUS ] : ACTIVE 📅 DAY: "<<"["  << day <<"/7]"<<" ║" << RESET << std::endl;
+            std::cout<< CYAN << "╚══════════════════════════════════════════╝" << RESET <<std::endl;
             
             int todayMission = missionDays[day-1];
-            cout << ">> Today's Mission: " << missionNames[todayMission] << " <<\n\n";
+            //cout << ">> Today's Mission: " << missionNames[todayMission] << " <<\n\n";
+            cout << BOLD << CYAN << ">>🚀 TARGET MISSION : " << missionNames[todayMission] <<"<<\n\n"<<RESET;
 
             // ดึงเมนูประจำวันตามเลข Day
             vector<Menu*> todaysMenus;
@@ -73,14 +103,28 @@ int main() {
                 case 7: todaysMenus = setupDay7Menus(); break;
             }
 
-            cout << "Select a menu to cook today:\n";
+            //cout << "Select a menu to cook today:\n";
+
+            std::cout<< "     ┌─────────────────────────────────┐" <<std::endl;
+            std::cout<<BOLD<< "     │   📥 AVAILABLE MENU FOR TODAY   │"<<std::endl;
+            std::cout<< "     └─────────────────────────────────┘" <<std::endl;
+            cout<<"\n";
+
+            std::cout<<BOLD<< "[ID]   [ DISH NAME ]                             " <<std::endl;
+            std::cout<< "─────────────────────────────────────────────────────── " <<std::endl;
             for (size_t i = 0; i < todaysMenus.size(); i++) {
-                cout << i + 1 << ". " << todaysMenus[i]->menuName << "\n";
+                //cout << i + 1 << ". " << todaysMenus[i]->menuName << "\n";
+                printf("%s%02zu%s  |  %s%-35s%s \n", 
+                WHITE, i + 1, RESET,       
+                WHITE, todaysMenus[i]->menuName.c_str(), RESET // ชื่อเมนู
+                );
             }
+            std::cout<< "───────────────────────────────────────────────────────" <<std::endl;
             
             int menuChoice;
             do {
-                cout << "Enter choice (1-4): ";
+                //cout << "Enter choice (1-4): ";
+                cout << "👉 " << BOLD << "SELECT YOUR DISH (1-4) > " << RESET;
                 cin >> menuChoice;
             } while(menuChoice < 1 || menuChoice > 4);
 

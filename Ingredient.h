@@ -18,6 +18,7 @@ public:
     Ingredient(string n, int c, bool imp, bool frozen, bool pack) 
         : name(n), baseCarbon(c), isImported(imp), isFrozenOrFactory(frozen), isPackaged(pack) {}
     
+    virtual string getType() = 0; //ฟังก์ชันที่เพิ่ม
     virtual ~Ingredient() {}
 
     string getName() const { return name; }
@@ -38,6 +39,8 @@ public:
     int getCarbon() override {
         return baseCarbon; // ท้องถิ่น ไม่บวกเพิ่ม
     }
+
+    string getType() override { return "Local"; } //เพิ่มอันนี้
 };
 
 // [Requirement 3: Derived Class - วัตถุดิบนำเข้า]
@@ -51,6 +54,8 @@ public:
     int getCarbon() override {
         return baseCarbon + importPenalty; // นำเข้าบวกเพิ่ม 30
     }
+
+    string getType() override { return "Imported"; } //เพิ่มอันนี้
 };
 
 // [Requirement 3: Derived Class - วัตถุดิบสำเร็จรูป/แปรรูป]
@@ -64,6 +69,8 @@ public:
     int getCarbon() override {
         return baseCarbon + factoryPenalty + (isImported ? 30 : 0);
     }
+
+    string getType() override { return "Processed"; }//เพิ่มอันนี้
 };
 
 #endif
